@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "09f74bc8-e860-4774-8b8f-1acf31315f6b",
+		"name": "digital-product-store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30341766"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"bearer-token\", pm.response.json().token);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "{{user-host}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"baris\",\n    \"password\": \"baris\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ingress-addr}}/api/v1/auth",
+							"protocol": "http",
+							"host": [
+								"{{ingress-addr}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "[Admin] Upload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"upload_id\", pm.response.json().upload_id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "{{product-host}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/baris.yuksel/Documents/1310.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{ingress-addr}}/admin/api/v1/upload",
+							"protocol": "http",
+							"host": [
+								"{{ingress-addr}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"v1",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Admin] Book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "{{product-host}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"upload_id\": \"{{upload_id}}\",\n    \"book_name\": \"Postmaster Book\",\n    \"author\": \"Postmaster Itself\",\n    \"summary\": \"a book from postmaster\",\n    \"price\": 25.15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ingress-addr}}/admin/api/v1/book",
+							"protocol": "http",
+							"host": [
+								"{{ingress-addr}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"v1",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Public] Book",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Host",
+								"value": "{{product-host}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{ingress-addr}}/api/v1/books",
+							"protocol": "http",
+							"host": [
+								"{{ingress-addr}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
