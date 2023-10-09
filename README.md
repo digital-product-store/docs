@@ -10,6 +10,9 @@ each service are implemented as compatible with openapi3 specs, all of them are 
 
 you can visit the infra repository to see how terraform code creates the environment on AWS: https://github.com/digital-product-store/infra
 
+- the `user` service: https://github.com/digital-product-store/user
+- the `product` service: https://github.com/digital-product-store/product
+
 ## services
 
 the `user` service uses an `in-memory` database and exposes one endpoint to public: `POST /api/v1/auth` which is used for authenticate a user and get a token. this service has no dependency.
