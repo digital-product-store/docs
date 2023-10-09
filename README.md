@@ -2,7 +2,7 @@
 
 currently, only 2 services are implemented as ready-to-run and running on the mesh: user service and product service. both are http services. they have their pipeline basically runs lint and format checkers, builds docker image, push ECR and then deploy latest versions to EKS by helm. For keeping implementations minimal, pipelines deploy applications by `helm upgrade` instead of any proper CD tool like argocd or flux.
 
-you can find the helm chart repository of the applications here: https://github.com/digital-product-store/helm_charts and you can see the charts' sources here: https://github.com/digital-product-store/helm_charts_src/tree/main (templates are basic and not parameterized well.)
+you can find the helm chart repository of the applications here: https://github.com/digital-product-store/helm_charts and you can see the charts' sources here: https://github.com/digital-product-store/helm_charts_src (templates are so basic and not parameterized well.)
 
 currently there are tree packages total: `user`, `product` and `reqauth`. the user and product packages are packages of the applications as their names suggest, `reqauth` is the package defines `RequestAuthentication` manifest for the istio mesh to leverage JWT authentication to istio instead of being performed by services' themselves. thanks to istio, `product` service does not include any authentication / authorization logic even it has some `admin` endpoints that they need to be open only for permitted users. authn and authz processes are performed by istio, it validates given JWT, then it checks user' role if it is `admin` or `user` depending on the endpoint the user try to reach and then it extracts the `user_id` from JWT and passes to services as identifier of the user.
 
